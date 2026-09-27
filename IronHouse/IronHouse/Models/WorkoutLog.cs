@@ -5,7 +5,7 @@
     public class WorkoutLog
     {
         [Required]
-        public string Id { get; set; } = null!;
+        public int Id { get; set; }
 
         [Required]
         [DataType(DataType.Date)]

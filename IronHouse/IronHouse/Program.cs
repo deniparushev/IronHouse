@@ -1,3 +1,6 @@
+using IronHouse.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace IronHouse
 {
     public class Program
@@ -9,8 +12,12 @@ namespace IronHouse
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            var app = builder.Build();
 
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+              options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            
+            var app = builder.Build();
+           
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
@@ -31,6 +38,9 @@ namespace IronHouse
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             app.Run();
+
+
+           
         }
     }
 }
