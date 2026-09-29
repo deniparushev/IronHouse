@@ -47,6 +47,43 @@ namespace IronHouse.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Exercises");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "A chest exercise performed by pressing a weight upwards from a supine position.",
+                            MuscleGroup = "Chest",
+                            Name = "Bench Press"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "A lower body exercise that primarily targets the thighs and glutes.",
+                            MuscleGroup = "Legs",
+                            Name = "Squat"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "A compound movement that targets multiple muscle groups, including the back, legs, and core.",
+                            MuscleGroup = "Back",
+                            Name = "Deadlift"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Description = "A shoulder exercise performed by pressing a weight overhead from shoulder height.",
+                            MuscleGroup = "Shoulders",
+                            Name = "Overhead Press"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Description = "A bodyweight back exercise that targets the lats and rhomboids.",
+                            MuscleGroup = "Back",
+                            Name = "Pull-up"
+                        });
                 });
 
             modelBuilder.Entity("IronHouse.Models.SetLog", b =>
