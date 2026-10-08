@@ -1,0 +1,38 @@
+﻿@model IEnumerable<IronHouse.Models.WorkoutLog>
+
+@{
+    ViewData["Title"] = "Workout Logs";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Workout Logs</h2>
+    <a asp-action="Create" class="btn btn-primary">+ Log New Workout</a>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Duration (min)</th>
+            <th>Notes</th>
+            <th class="text-end">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Date.ToString("yyyy-MM-dd")</td>
+                <td>@item.WorkoutType</td>
+                <td>@item.Duration</td>
+                <td>@(item.Notes ?? "-")</td>
+                <td class="text-end">
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Details</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
