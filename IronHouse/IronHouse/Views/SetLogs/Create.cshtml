@@ -1,0 +1,47 @@
+﻿@model IronHouse.Models.SetLog
+
+@{
+    ViewData["Title"] = "Add Set";
+}
+
+<h2>Add Set to Workout</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <input type="hidden" name="WorkoutLogId" value="@ViewBag.WorkoutLogId" />
+
+            <div class="mb-3">
+                <label class="form-label">Exercise</label>
+                <select asp-for="ExerciseId" class="form-select" asp-items="ViewBag.Exercises">
+                    <option value="">-- Select Exercise --</option>
+                </select>
+                <span asp-validation-for="ExerciseId" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="WeightKg" class="form-label">Weight (kg)</label>
+                <input asp-for="WeightKg" class="form-control" type="number" step="0.5" />
+                <span asp-validation-for="WeightKg" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Reps" class="form-label">Reps</label>
+                <input asp-for="Reps" class="form-control" type="number" />
+                <span asp-validation-for="Reps" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-success">Add Set</button>
+            <a asp-controller="WorkoutLogs" asp-action="Details" asp-route-id="@ViewBag.WorkoutLogId" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

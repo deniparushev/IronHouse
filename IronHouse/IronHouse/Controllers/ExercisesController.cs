@@ -2,7 +2,6 @@
 using IronHouse.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;    
-using IronHouse.Data;
 using IronHouse.Models;
 
 namespace IronHouse.Controllers

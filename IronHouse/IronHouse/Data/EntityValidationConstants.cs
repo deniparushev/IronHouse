@@ -30,8 +30,8 @@
             public const int RepsMinLength = 1;
             public const int RepsMaxLength = 100;
 
-            public const int WeightMinLength = 0;
-            public const int WeightMaxLength = 1000;
+            public const double WeightMinLength = 0.0;
+            public const double WeightMaxLength = 1000.0;
         }
     }
 }
