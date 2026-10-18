@@ -23,7 +23,7 @@
             public const int DurationMaxLength = 500;
 
             public const int CaloriesBurnedMinLength = 1;
-            public const int CaloriesBurnedMaxLength = 1000;
+            public const int CaloriesBurnedMaxLength = 5000;
         }
         public static class SetLog
         {

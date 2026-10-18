@@ -2,32 +2,28 @@
 {
     using System.ComponentModel.DataAnnotations;
     using static IronHouse.Data.EntityValidationConstants.WorkoutLog;
+
     public class WorkoutLog
     {
-        [Required]
+        [Key]
         public int Id { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; } = DateTime.Today;
 
-        [Required]
-        [StringLength(WorkoutTypeMaxLength)]
-        [MinLength(WorkoutTypeMinLength)]
-        public string WorkoutType { get; set; } = null!;
+        [Required(ErrorMessage = "Workout type is required.")]
+        [StringLength(WorkoutTypeMaxLength, MinimumLength = WorkoutTypeMinLength)]
+        public string WorkoutType { get; set; } = string.Empty;
+
+        [Range(DurationMinLength, DurationMaxLength, ErrorMessage = "Duration must be between {1} and {2} minutes.")]
+        public int Duration { get; set; }
+
+        [Range(CaloriesBurnedMinLength, CaloriesBurnedMaxLength, ErrorMessage = "Calories must be between {1} and {2}.")]
+        public int? CaloriesBurned { get; set; }
 
         [StringLength(NotesMaxLength)]
         public string? Notes { get; set; }
-
-        [Required]
-        [StringLength(DurationMaxLength)]
-        [MinLength(DurationMinLength)]
-        public string Duration { get; set; } = null!;
-
-        [Required]
-        [StringLength(CaloriesBurnedMaxLength)]
-        [MinLength(CaloriesBurnedMinLength)]
-        public string CaloriesBurned { get; set; } = null!;
 
         public ICollection<SetLog> SetLogs { get; set; } = new List<SetLog>();
     }

@@ -1,0 +1,27 @@
+﻿@model IronHouse.Models.WorkoutLog
+
+@{
+    ViewData["Title"] = "Workout Details";
+}
+
+<h2>Workout Details</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Date</dt>
+    <dd class="col-sm-9">@Model.Date.ToString("yyyy-MM-dd")</dd>
+
+    <dt class="col-sm-3">Workout Type</dt>
+    <dd class="col-sm-9">@Model.WorkoutType</dd>
+
+    <dt class="col-sm-3">Duration</dt>
+    <dd class="col-sm-9">@Model.Duration minutes</dd>
+
+    <dt class="col-sm-3">Notes</dt>
+    <dd class="col-sm-9">@(Model.Notes ?? "No notes provided.")</dd>
+</dl>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

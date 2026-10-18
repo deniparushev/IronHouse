@@ -1,0 +1,30 @@
+﻿@model IEnumerable<IronHouse.Models.Exercise>
+
+@{
+    ViewData["Title"] = "Exercises";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Exercise Library</h2>
+    <a asp-action="Create" class="btn btn-primary">+ Add New Exercise</a>
+</div>
+
+<table class="table table-striped table-hover align-middle">
+    <thead class="table-dark">
+        <tr>
+            <th>Name</th>
+            <th>Muscle Group</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="fw-bold">@item.Name</td>
+                <td><span class="badge bg-secondary">@item.MuscleGroup</span></td>
+                <td>@(item.Description ?? "-")</td>
+            </tr>
+        }
+    </tbody>
+</table>

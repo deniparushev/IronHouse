@@ -51,7 +51,7 @@ namespace IronHouse.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Date,WorkoutType,DurationMinutes,Notes")] WorkoutLog workoutLog)
+        public async Task<IActionResult> Create([Bind("Id,Date,WorkoutType,Duration,Notes,CaloriesBurned")] WorkoutLog workoutLog)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace IronHouse.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,WorkoutType,DurationMinutes,Notes")] WorkoutLog workoutLog)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Date,WorkoutType,Duration,Notes,CaloriesBurned")] WorkoutLog workoutLog)
         {
             if (id != workoutLog.Id)
             {
@@ -131,7 +131,7 @@ namespace IronHouse.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var workoutLog = await _context.WorkoutLogs.FindAsync(id);
-            if (workoutLog == null)
+            if (workoutLog != null)
             {
                 _context.WorkoutLogs.Remove(workoutLog);
                 await _context.SaveChangesAsync();

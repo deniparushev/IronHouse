@@ -1,0 +1,48 @@
+﻿@model IronHouse.Models.WorkoutLog
+
+@{
+    ViewData["Title"] = "Edit Workout";
+}
+
+<h2>Edit Workout</h2>
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+            <input type="hidden" asp-for="Id" />
+
+            <div class="mb-3">
+                <label asp-for="Date" class="form-label"></label>
+                <input asp-for="Date" class="form-control" type="date" />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="WorkoutType" class="form-label"></label>
+                <input asp-for="WorkoutType" class="form-control" />
+                <span asp-validation-for="WorkoutType" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Duration" class="form-label"></label>
+                <input asp-for="Duration" class="form-control" type="number" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Notes" class="form-label"></label>
+                <textarea asp-for="Notes" class="form-control" rows="3"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
