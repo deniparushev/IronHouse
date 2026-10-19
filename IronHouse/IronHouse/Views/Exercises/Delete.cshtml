@@ -1,0 +1,26 @@
+﻿@model IronHouse.Models.Exercise
+
+@{
+    ViewData["Title"] = "Delete Exercise";
+}
+
+<h2 class="text-danger">Delete Exercise</h2>
+<h3>Are you sure you want to delete this exercise?</h3>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+
+    <dt class="col-sm-3">Muscle Group</dt>
+    <dd class="col-sm-9">@Model.MuscleGroup</dd>
+
+    <dt class="col-sm-3">Description</dt>
+    <dd class="col-sm-9">@(Model.Description ?? "No description provided.")</dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <button type="submit" class="btn btn-danger">Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</form>
