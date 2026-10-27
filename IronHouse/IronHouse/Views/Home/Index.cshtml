@@ -2,7 +2,45 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="text-center py-5 bg-light rounded-3 shadow-sm my-4">
+    <h1 class="display-4 fw-bold text-dark">Welcome to IronHouse</h1>
+    <p class="lead text-muted mt-3">
+        Track your workouts, organize your exercises, and log your sets with precision.
+    </p>
+    <hr class="my-4 w-50 mx-auto">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-center mt-4">
+        <a asp-controller="WorkoutLogs" asp-action="Index" class="btn btn-primary btn-lg px-4 me-md-2">
+            View Workout Logs
+        </a>
+        <a asp-controller="Exercises" asp-action="Index" class="btn btn-outline-secondary btn-lg px-4">
+            Browse Exercises
+        </a>
+    </div>
+</div>
+
+<div class="row text-center mt-5">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0 shadow-sm p-3">
+            <div class="card-body">
+                <h3 class="h5 card-title fw-bold">Log Workouts</h3>
+                <p class="card-text text-muted">Keep a detailed history of your training sessions, durations, and notes.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0 shadow-sm p-3">
+            <div class="card-body">
+                <h3 class="h5 card-title fw-bold">Exercise Library</h3>
+                <p class="card-text text-muted">Access seeded exercises or create your own customized routines.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-3">
+        <div class="card h-100 border-0 shadow-sm p-3">
+            <div class="card-body">
+                <h3 class="h5 card-title fw-bold">Track Progress</h3>
+                <p class="card-text text-muted">Record exact weights and repetition counts for every set executed.</p>
+            </div>
+        </div>
+    </div>
 </div>
