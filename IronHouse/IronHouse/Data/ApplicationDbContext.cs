@@ -30,13 +30,7 @@ namespace IronHouse.Data
                 .WithMany(e => e.SetLogs)
                 .HasForeignKey(s => s.ExerciseId)
                 .OnDelete(DeleteBehavior.Restrict);
-
-            /* modelBuilder.Entity<WorkoutLog>()
-                 .HasMany(w => w.SetLogs)
-                 .WithOne(s => s.WorkoutLog)
-                 .HasForeignKey(s => s.WorkoutLogId)
-                 .OnDelete(DeleteBehavior.Cascade);
-            */
+         
             modelBuilder.Entity<Exercise>().HasData
             (
                 new Exercise

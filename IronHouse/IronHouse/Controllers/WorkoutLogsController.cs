@@ -15,13 +15,13 @@ namespace IronHouse.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var wourkoutLogs = await _context.WorkoutLogs
+            var workoutLogs = await _context.WorkoutLogs
                 .Include(wl => wl.SetLogs)
                 .ThenInclude(sl => sl.Exercise)
                 .OrderByDescending(wl => wl.Date)
                 .ToListAsync();
 
-            return View(wourkoutLogs);
+            return View(workoutLogs);
         }
 
        public async Task<IActionResult> Details(int? id)
