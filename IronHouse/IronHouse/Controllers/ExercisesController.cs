@@ -1,51 +1,35 @@
-﻿using System.Threading.Tasks;
-using IronHouse.Data;
+﻿using IronHouse.Models;
+using IronHouse.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;    
-using IronHouse.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace IronHouse.Controllers
 {
     public class ExercisesController : Controller
     {
-       private readonly ApplicationDbContext _context;
-        public ExercisesController(ApplicationDbContext context)
+        private readonly IExerciseService _exerciseService;
+
+        public ExercisesController(IExerciseService exerciseService)
         {
-            _context = context;
-        }
-        public async Task<IActionResult> Index()
-        {
-            var exercises = await _context.Exercises.ToListAsync();
-            return View(exercises);
-        }
-        public IActionResult Create()
-        {
-            return View();
+            _exerciseService = exerciseService;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,MuscleGroup,Description")] Exercise exercise)
+    
+        public async Task<IActionResult> Index()
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(exercise);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(exercise);
+            var exercises = await _exerciseService.GetAllAsync();
+            return View(exercises);
         }
-        
-        public async Task<IActionResult> Delete(int? id)
+
+     
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var exercise = await _context.Exercises
-                .FirstOrDefaultAsync(m => m.Id == id);
-
+            var exercise = await _exerciseService.GetByIdAsync(id.Value);
             if (exercise == null)
             {
                 return NotFound();
@@ -54,18 +38,97 @@ namespace IronHouse.Controllers
             return View(exercise);
         }
 
+      
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Name,MuscleGroup,Description")] Exercise exercise)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(exercise);
+            }
+
+            await _exerciseService.CreateAsync(exercise);
+            return RedirectToAction(nameof(Index));
+        }
+
         
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var exercise = await _exerciseService.GetByIdAsync(id.Value);
+            if (exercise == null)
+            {
+                return NotFound();
+            }
+
+            return View(exercise);
+        }
+
+       
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,MuscleGroup,Description")] Exercise exercise)
+        {
+            if (id != exercise.Id)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return View(exercise);
+            }
+
+            try
+            {
+                await _exerciseService.UpdateAsync(exercise);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _exerciseService.ExistsAsync(exercise.Id))
+                {
+                    return NotFound();
+                }
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var exercise = await _exerciseService.GetByIdAsync(id.Value);
+            if (exercise == null)
+            {
+                return NotFound();
+            }
+
+            return View(exercise);
+        }
+
+       
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var exercise = await _context.Exercises.FindAsync(id);
-            if (exercise != null)
-            {
-                _context.Exercises.Remove(exercise);
-                await _context.SaveChangesAsync();
-            }
-
+            await _exerciseService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
     }
