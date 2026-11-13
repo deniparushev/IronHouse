@@ -1,0 +1,24 @@
+﻿@model IronHouse.Models.Exercise
+
+@{
+    ViewData["Title"] = "Exercise Details";
+}
+
+<h2>Exercise Details</h2>
+<hr />
+
+<dl class="row">
+    <dt class="col-sm-3">Name</dt>
+    <dd class="col-sm-9">@Model.Name</dd>
+
+    <dt class="col-sm-3">Muscle Group</dt>
+    <dd class="col-sm-9"><span class="badge bg-secondary">@Model.MuscleGroup</span></dd>
+
+    <dt class="col-sm-3">Description</dt>
+    <dd class="col-sm-9">@(Model.Description ?? "No description provided.")</dd>
+</dl>
+
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>
