@@ -22,6 +22,8 @@ namespace IronHouse
 
             builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
+            builder.Services.AddScoped<ISetLogService, SetLogService>();
+
             var app = builder.Build();
            
             
