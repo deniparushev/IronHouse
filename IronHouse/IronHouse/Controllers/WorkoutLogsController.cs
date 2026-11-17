@@ -1,26 +1,22 @@
-﻿using IronHouse.Data;
+﻿
 using IronHouse.Models;
+using IronHouse.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace IronHouse.Controllers
 {
     public class WorkoutLogsController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-        public WorkoutLogsController(ApplicationDbContext context)
-        {
-            _context = context;
+    {  
+        private readonly IWorkoutService _workoutService;
+        public WorkoutLogsController(IWorkoutService workoutService)
+        {      
+            _workoutService = workoutService;
         }
 
         public async Task<IActionResult> Index()
         {
-            var workoutLogs = await _context.WorkoutLogs
-                .Include(wl => wl.SetLogs)
-                .ThenInclude(sl => sl.Exercise)
-                .OrderByDescending(wl => wl.Date)
-                .ToListAsync();
-
+            var workoutLogs = await _workoutService.GetAllAsync();
             return View(workoutLogs);
         }
 
@@ -31,10 +27,7 @@ namespace IronHouse.Controllers
                 return NotFound();
                }
 
-            var workoutLog = await _context.WorkoutLogs
-                .Include(wl => wl.SetLogs)
-                .ThenInclude(sl => sl.Exercise)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var workoutLog = await _workoutService.GetByIdWithSetsAsync(id.Value);
 
             if (workoutLog == null)
             {
@@ -53,13 +46,13 @@ namespace IronHouse.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Date,WorkoutType,Duration,Notes,CaloriesBurned")] WorkoutLog workoutLog)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(workoutLog);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return View(workoutLog);             
             }
-            return View(workoutLog);
+
+            await _workoutService.CreateAsync(workoutLog);
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Edit(int? id)
@@ -69,7 +62,7 @@ namespace IronHouse.Controllers
                 return NotFound();
             }
 
-            var workoutLog = await _context.WorkoutLogs.FindAsync(id);
+            var workoutLog = await _workoutService.GetByIdAsync(id.Value);
 
             if (workoutLog == null)
             {
@@ -90,12 +83,11 @@ namespace IronHouse.Controllers
             {
                 try
                 {
-                    _context.Update(workoutLog);
-                    await _context.SaveChangesAsync();
+                    await _workoutService.UpdateAsync(workoutLog);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!WorkoutLogExists(workoutLog.Id))
+                    if (!await _workoutService.ExistAsync(workoutLog.Id))
                     {
                         return NotFound();
                     }
@@ -116,8 +108,7 @@ namespace IronHouse.Controllers
                 return NotFound();
             }
 
-            var workoutLog = await _context.WorkoutLogs
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var workoutLog = await _workoutService.GetByIdAsync(id.Value);
 
             if (workoutLog == null)
             {
@@ -130,20 +121,8 @@ namespace IronHouse.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var workoutLog = await _context.WorkoutLogs.FindAsync(id);
-            if (workoutLog != null)
-            {
-                _context.WorkoutLogs.Remove(workoutLog);
-                await _context.SaveChangesAsync();
-            }
-
-            
+            await _workoutService.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool WorkoutLogExists(int id)
-        {
-            return _context.WorkoutLogs.Any(e => e.Id == id);
         }
     }
 }

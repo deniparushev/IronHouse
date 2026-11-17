@@ -20,6 +20,8 @@ namespace IronHouse
 
             builder.Services.AddScoped<IExerciseService, ExerciseService>();
 
+            builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+
             var app = builder.Build();
            
             
